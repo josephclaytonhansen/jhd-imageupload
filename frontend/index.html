@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <body>
-  <div style = "display:flex;flex-direction: column;width:80vw;margin:auto;height:80vh"
+  <div style = "display:flex;flex-direction: column;width:80vw;margin:auto;height:80vh;font-family:sans-serif"
 
 <h1>Image Upload</h1>
 
@@ -14,7 +14,7 @@
 <h3 id = "imageFileSize"></h3>
 <h3 id = "percentage"></h3>
 
-<meter id="range" min="0" max="35000000000" value="0"></meter>
+<div id="storageMeter" style="width: 100%; height: 20px; border-radius:20px;border:solid 2px #eee;"></div>
 
 <button onclick="uploadImage()" style = "margin-top:2rem">Upload</button>
 </div>
@@ -66,7 +66,22 @@ window.onload = function() {
         let percentage = ((data.totalSize) / (36152472 * 1024)) * 100;
         percentage = percentage.toFixed(3);
         document.getElementById('percentage').innerHTML = 'Storage: ' + percentage + '%';
-        document.getElementById('range').value = data.totalSize;
+        let maxSpace = 36152472 * 1024;
+        let diskSpace = data.totalSize;
+        let imageSpace = data.totalSize - (3522714 * 1024);
+
+        let usedSpacePercentage = (diskSpace / maxSpace) * 100;
+        let imageSpacePercentage = (imageSpace / maxSpace) * 100;
+
+
+        // Create linear gradient
+        let gradient = `linear-gradient(to right, 
+            MediumAquamarine 0%, MediumAquamarine ${usedSpacePercentage}%, 
+            YellowGreen ${usedSpacePercentage}%, YellowGreen ${usedSpacePercentage + imageSpacePercentage}%, 
+            #efefef ${usedSpacePercentage + imageSpacePercentage}%, #efefef 100%)`;
+
+        // Apply gradient to div
+        document.getElementById('storageMeter').style.background = gradient;
     } else {
       console.error('An error occurred: ' + xhr.status);
     }
