@@ -27,7 +27,7 @@ const storage = multer.diskStorage({
   const upload = multer({ storage: storage })
   
 
-  app.post('/api/upload', upload.single('file'), (req, res) => {
+  app.post('/api/upload', (req, res, next) => {
     const token = req.header('X-TOTP-Token');
     const isVerified = speakeasy.totp.verify({
       secret: process.env.TOTP_SECRET,
@@ -36,10 +36,12 @@ const storage = multer.diskStorage({
     });
   
     if (isVerified) {
-      res.json({ filename: req.file.filename });
+      next();
     } else {
       res.status(401).send('Invalid code');
     }
+  }, upload.single('file'), (req, res) => {
+    res.json({ filename: req.file.filename });
   });
 
 
