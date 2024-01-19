@@ -18,7 +18,10 @@ const storage = multer.diskStorage({
     cb(null, './uploads');
   },
   filename: (req, file, cb) => {
-    let filename = file.fieldname + '-' + Date.now() + path.extname(file.originalname);
+    let removeWhitespace = file.originalname.replace(/\s/g, '');
+    let first12 = removeWhitespace.substring(0, 12);
+
+    let filename =  file.fieldname + first12 + '-' + Date.now() + path.extname(file.originalname);
     
     filename = encodeURIComponent(filename);
     
