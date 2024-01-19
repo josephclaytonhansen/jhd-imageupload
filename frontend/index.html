@@ -106,14 +106,11 @@ window.onload = function() {
       let imageGrid = document.getElementById('imageGrid');
       for (let i = 0; i < data.length; i++) {
         let imageContainer = document.createElement('div');
-        imageContainer.style = 'display:flex;flex-direction:column;align-items:center;justify-content:center;max-width:225px;';
+        imageContainer.style = 'display:flex;flex-direction:column;align-items:center;justify-content:center;max-width:150px;';
         let image = document.createElement('img');
         image.src = '/uploads/' + data[i];
         image.style = "max-width:100%;object-fit:cover;"
-        let imagePath = document.createElement('div');
-        imagePath.innerHTML = data[i];
         imageContainer.appendChild(image);
-        imageContainer.appendChild(imagePath);
         imageGrid.appendChild(imageContainer);
 
 
