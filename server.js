@@ -6,6 +6,8 @@ const fs = require('fs')
 require('dotenv').config()
 const speakeasy = require('speakeasy')
 
+process.env.TZ = 'America/Chicago';
+
 const app = express()
 
 app.use(express.static('frontend'))
