@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <body>
+  <div style = "display:flex;flex-direction: column;width:80vw;margin:auto;height:80vh"
 
-<h2>Image Upload</h2>
+<h1>Image Upload</h1>
 
 <input type="file" id="imageUpload" accept="image/*" onchange="previewFile()">
 
@@ -11,7 +12,10 @@
 <h3 id = "numberOfFiles"></h3>
 <h3 id = "totalFileSize"></h3>
 
-<button onclick="uploadImage()">Upload</button>
+<meter id="range" min="0" max="35000000000" value="0"></meter>
+
+<button onclick="uploadImage()" style = "margin-top:2rem">Upload</button>
+</div>
 
 <script>
 window.onload = function() {
@@ -24,21 +28,22 @@ window.onload = function() {
         let totalSize = data.totalSize;
         if (totalSize > 1000000000) {
           totalSize = totalSize / 1000000000;
-          totalSize = totalSize.toFixed(2);
+          totalSize = totalSize.toFixed(3);
           totalSize = totalSize + ' GB';
         }
         else if (totalSize > 1000000) {
           totalSize = totalSize / 1000000;
-          totalSize = totalSize.toFixed(2);
+          totalSize = totalSize.toFixed(3);
           totalSize = totalSize + ' MB';
         } else if (totalSize > 1000) {
           totalSize = totalSize / 1000;
-          totalSize = totalSize.toFixed(2);
+          totalSize = totalSize.toFixed(3);
           totalSize = totalSize + ' KB';
         } else {
           totalSize = totalSize + ' B';
         }
         document.getElementById('totalFileSize').innerHTML = 'Total file size: ' + totalSize;
+        document.getElementById('range').value = data.totalSize;
     } else {
       console.error('An error occurred: ' + xhr.status);
     }

@@ -31,7 +31,8 @@ const storage = multer.diskStorage({
         return
       }
   
-      let totalSize = 0
+      let totalSize = 2562000000
+      let maxSize = 35000000000
   
       files.forEach(file => {
         totalSize += fs.statSync('./uploads/' + file).size
@@ -39,7 +40,8 @@ const storage = multer.diskStorage({
   
       res.send({
         numberOfImages: files.length,
-        totalSize: totalSize
+        totalSize: totalSize,
+        maxSize: maxSize
       })
     })
   })
