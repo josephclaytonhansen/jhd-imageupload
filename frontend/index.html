@@ -106,9 +106,9 @@ window.onload = function() {
         let imageContainer = document.createElement('div');
         imageContainer.style = 'display:flex;flex-direction:column;align-items:center;justify-content:center;max-width:300px;';
         let image = document.createElement('img');
-        image.src = '/uploads/' + data[i].filename;
+        image.src = '/uploads/' + data[i];
         let imagePath = document.createElement('div');
-        imagePath.innerHTML = data[i].filename;
+        imagePath.innerHTML = data[i];
         imageContainer.appendChild(image);
         imageContainer.appendChild(imagePath);
 
