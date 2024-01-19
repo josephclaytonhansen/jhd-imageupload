@@ -9,7 +9,7 @@ const speakeasy = require('speakeasy')
 process.env.TZ = 'America/Chicago';
 
 
-console.log(new(Date()))
+console.log(new Date())
 console.log(process.env.TOTP_SECRET)
 
 const app = express()
