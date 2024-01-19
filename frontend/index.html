@@ -20,7 +20,7 @@
 <script>
 window.onload = function() {
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', '/stats', true);
+  xhr.open('GET', '/api/stats', true);
   xhr.onload = function() {
     if (xhr.status === 200) {
       var data = JSON.parse(xhr.responseText);
@@ -74,7 +74,7 @@ window.onload = function() {
     var formData = new FormData();
     formData.append('file', file);
 
-    fetch('/upload', {
+    fetch('/api/upload', {
         method: 'POST',
         body: formData
     })
