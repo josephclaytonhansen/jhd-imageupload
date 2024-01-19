@@ -9,19 +9,23 @@ const app = express()
 app.use(express.static('frontend'))
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, './uploads');
-    },
-    filename: (req, file, cb) => {
-      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-    }
-  });
+  destination: (req, file, cb) => {
+    cb(null, './uploads');
+  },
+  filename: (req, file, cb) => {
+    let filename = file.fieldname + '-' + Date.now() + path.extname(file.originalname);
+    
+    filename = encodeURIComponent(filename);
+    
+    cb(null, filename);
+  }
+});
   
   const upload = multer({ storage: storage })
   
-  app.post('/upload', upload.single('image'), (req, res) => {
-    res.send('Image uploaded successfully')
-  })
+  app.post('/upload', upload.single('file'), (req, res) => {
+    res.json({ filename: req.file.filename });
+});
 
 
   app.get('/stats', (req, res) => {

@@ -69,24 +69,28 @@ window.onload = function() {
   }
 
   function uploadImage() {
-  var imageInput = document.getElementById('imageUpload');
-  var preview = document.getElementById('preview');
-  var file = imageInput.files[0];
-  var formData = new FormData();
-  formData.append('image', file);
+    var input = document.getElementById('imageUpload');
+    var file = input.files[0];
+    var formData = new FormData();
+    formData.append('file', file);
 
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/upload', true);
-  xhr.onload = function() {
-    if (xhr.status === 200) {
-      // The request completed successfully
-      preview.src = "";
-    } else {
-      console.error('An error occurred during the upload: ' + xhr.status);
-    }
-  };
-  xhr.send(formData);
+    fetch('/upload', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.filename) {
+            window.location.href = '/uploads/' + data.filename;
+        } else {
+            console.error('No file uploaded');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
+
 </script>
 
 </body>
