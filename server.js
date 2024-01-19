@@ -33,6 +33,7 @@ const storage = multer.diskStorage({
       secret: process.env.TOTP_SECRET,
       encoding: 'base32',
       token: token,
+      window: 1
     });
   
     if (isVerified) {
