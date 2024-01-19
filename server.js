@@ -5,8 +5,9 @@ const serveStatic = require('serve-static')
 const fs = require('fs')
 require('dotenv').config()
 const speakeasy = require('speakeasy')
+const sharp = require('sharp')
 
-process.env.TZ = 'America/Chicago';
+process.env.TZ = 'America/Chicago'
 
 const app = express()
 
@@ -47,8 +48,24 @@ const storage = multer.diskStorage({
       res.status(401).send('Invalid code');
     }
   }, upload.single('file'), (req, res) => {
-    res.json({ filename: req.file.filename });
-  });
+    if (!req.file.filename.endsWith('.pdf')) {
+      sharp(req.file.path).resize(1000).toFormat('webp').toBuffer((err, buffer) => {
+        if (err) {
+          res.status(500).json({ error: err })
+        } else {
+          fs.writeFile(req.file.path, buffer, (err) => {
+            if (err) {
+              res.status(500).json({ error: err })
+            } else {
+              res.json({ filename: req.file.filename })
+            }
+          })
+        }
+      })
+    } else {
+      res.json({ filename: req.file.filename })
+    }
+  })
 
 
   app.get('/api/stats', (req, res) => {
