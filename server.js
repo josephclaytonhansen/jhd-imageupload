@@ -8,6 +8,10 @@ const speakeasy = require('speakeasy')
 
 process.env.TZ = 'America/Chicago';
 
+
+console.log(new(Date()))
+console.log(process.env.TOTP_SECRET)
+
 const app = express()
 
 app.use(express.static('frontend'))
