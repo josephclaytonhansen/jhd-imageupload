@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Image Upload</h2>
+
+<input type="file" id="imageUpload" accept="image/*" onchange="previewFile()">
+
+<img id="preview" width="200">
+
+<h3 id = "numberOfFiles"></h3>
+<h3 id = "totalFileSize"></h3>
+
+<button onclick="uploadImage()">Upload</button>
+
+<script>
+window.onload = function() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '/stats', true);
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      var data = JSON.parse(xhr.responseText);
+        document.getElementById('numberOfFiles').innerHTML = 'Number of files: ' + data.numberOfImages;
+        let totalSize = data.totalSize;
+        if (totalSize > 1000000) {
+          totalSize = totalSize / 1000000;
+          totalSize = totalSize.toFixed(2);
+          totalSize = totalSize + ' MB';
+        } else if (totalSize > 1000) {
+          totalSize = totalSize / 1000;
+          totalSize = totalSize.toFixed(2);
+          totalSize = totalSize + ' KB';
+        } else {
+          totalSize = totalSize + ' B';
+        }
+        document.getElementById('totalFileSize').innerHTML = 'Total file size: ' + totalSize;
+    } else {
+      console.error('An error occurred: ' + xhr.status);
+    }
+  };
+  xhr.send();
+};
+
+
+  function previewFile() {
+    var preview = document.getElementById('preview');
+    var file    = document.querySelector('input[type=file]').files[0];
+    var reader  = new FileReader();
+
+    reader.onloadend = function () {
+      preview.src = reader.result;
+    }
+
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      preview.src = "";
+    }
+  }
+
+  function uploadImage() {
+  var imageInput = document.getElementById('imageUpload');
+  var preview = document.getElementById('preview');
+  var file = imageInput.files[0];
+  var formData = new FormData();
+  formData.append('image', file);
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/upload', true);
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      // The request completed successfully
+      preview.src = "";
+    } else {
+      console.error('An error occurred during the upload: ' + xhr.status);
+    }
+  };
+  xhr.send(formData);
+}
+</script>
+
+</body>
+</html>
