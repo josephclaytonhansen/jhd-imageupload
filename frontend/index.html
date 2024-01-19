@@ -7,6 +7,9 @@
 
 <input type="file" id="imageUpload" accept="image/*" onchange="previewFile()">
 
+<input type = "text" id = "totp">
+<button onclick = "verify()">Verify</button>
+
 <img id="preview" width="200">
 
 <h3 id = "numberOfFiles"></h3>
@@ -20,6 +23,24 @@
 </div>
 
 <script>
+
+const verify = async () => {
+  const totp = document.getElementById('totp').value;
+  const response = await fetch('/api/verify', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ totp })
+  });
+  const data = await response.json();
+  if (data.success) {
+    console.log('Success');
+  } else {
+    console.log('Invalid code');
+  }
+};
+
 window.onload = function() {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', '/api/stats', true);
