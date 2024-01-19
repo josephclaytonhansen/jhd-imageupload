@@ -22,7 +22,12 @@ window.onload = function() {
       var data = JSON.parse(xhr.responseText);
         document.getElementById('numberOfFiles').innerHTML = 'Number of files: ' + data.numberOfImages;
         let totalSize = data.totalSize;
-        if (totalSize > 1000000) {
+        if (totalSize > 1000000000) {
+          totalSize = totalSize / 1000000000;
+          totalSize = totalSize.toFixed(2);
+          totalSize = totalSize + ' GB';
+        }
+        else if (totalSize > 1000000) {
           totalSize = totalSize / 1000000;
           totalSize = totalSize.toFixed(2);
           totalSize = totalSize + ' MB';
