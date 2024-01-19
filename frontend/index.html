@@ -63,7 +63,7 @@ window.onload = function() {
           imageSize = imageSize + ' B';
         }
         document.getElementById('imageFileSize').innerHTML = 'Image file size: ' + imageSize;
-        let percentage = (data.totalSize - (3522714 * 1024) / data.totalSize) * 100;
+        let percentage = ((data.totalSize) / (36152472 * 1024)) * 100;
         percentage = percentage.toFixed(3);
         document.getElementById('percentage').innerHTML = 'Storage: ' + percentage + '%';
         document.getElementById('range').value = data.totalSize;
