@@ -73,6 +73,17 @@ const storage = multer.diskStorage({
     })
   })
 
+  app.get('/api/all', (req, res) => {
+    fs.readdir('./uploads', (err, files) => {
+      if (err) {
+        res.status(500).send('Error reading directory')
+        return
+      }
+  
+      res.send(files)
+    })
+  })
+
   app.use('/api/uploads', serveStatic(path.join(__dirname, 'uploads')))
 
   app.listen(3000, () => console.log('Server started on port 3000'))

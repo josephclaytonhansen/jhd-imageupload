@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <body>
-  <div style = "display:flex;flex-direction: column;width:80vw;margin:auto;height:80vh;font-family:sans-serif"
+  <div style = "display:flex;flex-direction: column;width:80vw;margin:auto;font-family:sans-serif"
 
 <h1>Image Upload</h1>
 
@@ -19,6 +19,10 @@
 <div id="storageMeter" style="width: 100%; height: 20px; border-radius:20px;border:solid 2px #eee;"></div>
 
 <button onclick="uploadImage()" style = "margin-top:2rem">Upload</button>
+</div>
+
+<div id = "imageGrid" style = "display:flex;">
+
 </div>
 
 <script>
@@ -91,6 +95,29 @@ window.onload = function() {
     }
   };
   xhr.send();
+
+  var xhr2 = new XMLHttpRequest();
+  xhr2.open('GET', '/api/all', true);
+  xhr2.onload = function() {
+    if (xhr2.status === 200) {
+      var data = JSON.parse(xhr2.responseText);
+      let imageGrid = document.getElementById('imageGrid');
+      for (let i = 0; i < data.length; i++) {
+        let imageContainer = document.createElement('div');
+        imageContainer.style = 'display:flex;flex-direction:column;align-items:center;justify-content:center;max-width:300px;';
+        let image = document.createElement('img');
+        image.src = '/uploads/' + data[i].filename;
+        let imagePath = document.createElement('div');
+        imagePath.innerHTML = data[i].filename;
+        imageContainer.appendChild(image);
+        imageContainer.appendChild(imagePath);
+
+
+      }
+    } else {
+      console.error('An error occurred: ' + xhr2.status);
+    }
+  };
 };
 
 
