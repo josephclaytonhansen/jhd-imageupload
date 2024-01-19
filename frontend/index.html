@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <body>
-  <div style = "display:flex;flex-direction: column;width:80vw;margin:auto;font-family:sans-serif"
+  <div style = "display:flex;flex-direction: column;width:80vw;margin:auto;margin-top:2rem;font-family:sans-serif"
 
 <h1>Image Upload</h1>
 
@@ -19,11 +19,13 @@
 <div id="storageMeter" style="width: 100%; height: 20px; border-radius:20px;border:solid 2px #eee;"></div>
 
 <button onclick="uploadImage()" style = "margin-top:2rem">Upload</button>
+
+<div id = "imageGrid" style = "display:flex;margin-top:2rem;">
+
+</div>
 </div>
 
-<div id = "imageGrid" style = "display:flex;">
 
-</div>
 
 <script>
 
@@ -112,7 +114,7 @@ window.onload = function() {
         imageContainer.appendChild(image);
         imageContainer.appendChild(imagePath);
         imageGrid.appendChild(imageContainer);
-        
+
 
 
       }
