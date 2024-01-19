@@ -11,6 +11,8 @@
 
 <h3 id = "numberOfFiles"></h3>
 <h3 id = "totalFileSize"></h3>
+<h3 id = "imageFileSize"></h3>
+<h3 id = "percentage"></h3>
 
 <meter id="range" min="0" max="35000000000" value="0"></meter>
 
@@ -43,6 +45,27 @@ window.onload = function() {
           totalSize = totalSize + ' B';
         }
         document.getElementById('totalFileSize').innerHTML = 'Total file size: ' + totalSize;
+        let imageSize = totalSize - (3522714 * 1024);
+        if (imageSize > 1000000000) {
+          imageSize = imageSize / 1000000000;
+          imageSize = imageSize.toFixed(3);
+          imageSize = imageSize + ' GB';
+        }
+        else if (imageSize > 1000000) {
+          imageSize = imageSize / 1000000;
+          imageSize = imageSize.toFixed(3);
+          imageSize = imageSize + ' MB';
+        } else if (imageSize > 1000) {
+          imageSize = imageSize / 1000;
+          imageSize = imageSize.toFixed(3);
+          imageSize = imageSize + ' KB';
+        } else {
+          imageSize = imageSize + ' B';
+        }
+        document.getElementById('imageFileSize').innerHTML = 'Image file size: ' + imageSize;
+        let percentage = (imageSize / totalSize) * 100;
+        percentage = percentage.toFixed(3);
+        document.getElementById('percentage').innerHTML = 'Storage: ' + percentage + '%';
         document.getElementById('range').value = data.totalSize;
     } else {
       console.error('An error occurred: ' + xhr.status);
