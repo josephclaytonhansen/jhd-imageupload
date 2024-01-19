@@ -49,19 +49,24 @@ const storage = multer.diskStorage({
     }
   }, upload.single('file'), (req, res) => {
     if (!req.file.filename.endsWith('.pdf')) {
-      sharp(req.file.path).resize(1000).toFormat('webp').toBuffer((err, buffer) => {
-        if (err) {
-          res.status(500).json({ error: err })
-        } else {
-          fs.writeFile(req.file.path, buffer, (err) => {
-            if (err) {
-              res.status(500).json({ error: err })
-            } else {
-              res.json({ filename: req.file.filename })
-            }
-          })
-        }
-      })
+      const newFilename = path.basename(req.file.filename, path.extname(req.file.filename)) + '.webp'
+      const newPath = path.join(path.dirname(req.file.path), newFilename)
+    
+      sharp(req.file.path)
+        .resize(1000)
+        .toFormat('webp')
+        .toFile(newPath, (err) => {
+          if (err) {
+            res.status(500).json({ error: err })
+          } else {
+            fs.unlink(req.file.path, (err) => {
+              if (err) {
+                console.error(`Failed to delete original file: ${err}`)
+              }
+            })
+            res.json({ filename: newFilename })
+          }
+        })
     } else {
       res.json({ filename: req.file.filename })
     }
