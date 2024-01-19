@@ -8,10 +8,6 @@ const speakeasy = require('speakeasy')
 
 process.env.TZ = 'America/Chicago';
 
-
-console.log(new Date())
-console.log(process.env.TOTP_SECRET)
-
 const app = express()
 
 app.use(express.static('frontend'))
@@ -39,7 +35,7 @@ const storage = multer.diskStorage({
       secret: process.env.TOTP_SECRET,
       encoding: 'base32',
       token: token,
-      window: 1
+      window: 2
     });
   
     if (isVerified) {
