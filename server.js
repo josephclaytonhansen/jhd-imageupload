@@ -5,18 +5,8 @@ const serveStatic = require('serve-static')
 const fs = require('fs')
 require('dotenv').config()
 const speakeasy = require('speakeasy')
-const uuid = require('uuid')
-const session = require('express-session')
 
 const app = express()
-
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true, httpOnly: true }
-}))
-
 
 app.use(express.static('frontend'))
 app.use(express.json())
@@ -36,32 +26,21 @@ const storage = multer.diskStorage({
   
   const upload = multer({ storage: storage })
   
-  app.post('/verify', (req, res) => {
-    // Verify TOTP code
+
+  app.post('/api/upload', upload.single('file'), (req, res) => {
+    const token = req.header('X-TOTP-Token');
     const isVerified = speakeasy.totp.verify({
       secret: process.env.TOTP_SECRET,
       encoding: 'base32',
-      token: req.body.code,
+      token: token,
     });
   
     if (isVerified) {
-      req.session.id = uuid.v4()
-      req.session.expires = Date.now() + 10 * 60 * 1000
-      res.send('Verified')
+      res.json({ filename: req.file.filename });
     } else {
-      res.status(401).send('Invalid TOTP code')
+      res.status(401).send('Invalid code');
     }
   });
-
-
-  app.post('/api/upload', upload.single('file'), (req, res) => {
-    if (!req.session || !req.session.id || req.session.expires < Date.now()) {
-      res.status(401).send('Not authenticated')
-      return
-    }
-  
-    res.json({ filename: req.file.filename })
-  })
 
 
   app.get('/api/stats', (req, res) => {
