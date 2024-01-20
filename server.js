@@ -37,11 +37,16 @@ const storage = multer.diskStorage({
   app.post('/api/forms/pricing', (req, res) => {
 
     let transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: process.env.SMTP_HOST,
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.EMAIL_FROM_USERNAME,
-        pass: process.env.EMAIL_FROM_PASSWORD
-      }
+        pass: process.env.EMAIL_FROM_PASSWORD,
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
     })
     
 
