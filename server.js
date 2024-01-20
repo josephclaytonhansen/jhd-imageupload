@@ -43,7 +43,7 @@ const storage = multer.diskStorage({
         pass: process.env.EMAIL_FROM_PASSWORD
       }
     })
-    })
+    
 
     let mailOptions = {
       from: process.env.EMAIL_FROM_USERNAME,
@@ -60,6 +60,7 @@ const storage = multer.diskStorage({
         res.send('Email sent')
       }
     })
+  })
 
 
   app.post('/api/forms/contact', (req, res) => {
