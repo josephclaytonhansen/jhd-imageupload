@@ -34,7 +34,7 @@ const storage = multer.diskStorage({
   const upload = multer({ storage: storage })
   
 
-  app.post('/api/forms/pricing', (req, res) => {
+  app.post('/api/forms/submit', (req, res) => {
 
     let transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
@@ -49,12 +49,19 @@ const storage = multer.diskStorage({
       },
     })
     
-
+    let text = ''
+    if (req.body.form === 'pricing'){
+      text = `Name: ${req.body.name}\nEmail: ${req.body.email}\nWebsite: ${req.body.website}\nMessage: ${req.body.message}`
+    }
+    else if (req.body.form === 'contact'){
+      text = `Name: ${req.body.name}\nEmail: ${req.body.email}\nMessage: ${req.body.message}`
+    }
+    
     let mailOptions = {
       from: process.env.EMAIL_FROM_USERNAME,
       to: process.env.EMAIL_TO,
-      subject: 'New Pricing Request',
-      text: `Name: ${req.body.name}\nEmail: ${req.body.email}\nWebsite: ${req.body.website}\nMessage: ${req.body.message}`
+      subject: 'New ' + req.body.form + ' Request',
+      text: text,
     }
 
     transporter.sendMail(mailOptions, (err, info) => {
@@ -66,37 +73,6 @@ const storage = multer.diskStorage({
       }
     })
   })
-
-
-  app.post('/api/forms/contact', (req, res) => {
-
-    let transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_FROM_USERNAME,
-        pass: process.env.EMAIL_FROM_PASSWORD
-      }
-    })
-
-    let mailOptions = {
-      from: process.env.EMAIL_FROM_USERNAME,
-      to: process.env.EMAIL_TO,
-      subject: 'New Contact Request',
-      text: `Name: ${req.body.name}\nEmail: ${req.body.email}\nMessage: ${req.body.message}`
-    }
-
-    transporter.sendMail(mailOptions, (err, info) => {
-      if (err) {
-        console.error(err)
-        res.status(500).send('Error sending email')
-      } else {
-        res.send('Email sent')
-      }
-
-
-    })
-  })
-
 
   app.post('/api/upload', (req, res, next) => {
     const token = req.header('X-TOTP-Token');
