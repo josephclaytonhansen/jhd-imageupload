@@ -6,6 +6,7 @@ const fs = require('fs')
 require('dotenv').config()
 const speakeasy = require('speakeasy')
 const sharp = require('sharp')
+const nodemailer = require('nodemailer')
 
 process.env.TZ = 'America/Chicago'
 
@@ -32,6 +33,71 @@ const storage = multer.diskStorage({
   
   const upload = multer({ storage: storage })
   
+
+  app.post('/api/forms/pricing', (req, res) => {
+    const name = req.body.name
+    const email = req.body.email
+    const website = req.body.website
+    const message = req.body.message
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_FROM_USERNAME,
+        pass: process.env.EMAIL_FROM_PASSWORD
+      }
+    })
+    })
+
+    const mailOptions = {
+      from: process.env.EMAIL_FROM_USERNAME,
+      to: process.env.EMAIL_TO,
+      subject: 'New Pricing Request',
+      text: `Name: ${name}\nEmail: ${email}\nWebsite: ${website}\nMessage: ${message}`
+    }
+
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.error(err)
+        res.status(500).send('Error sending email')
+      } else {
+        res.send('Email sent')
+      }
+    })
+
+
+  app.post('/api/forms/contact', (req, res) => {
+    const name = req.body.name
+    const email = req.body.email
+    const message = req.body.message
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_FROM_USERNAME,
+        pass: process.env.EMAIL_FROM_PASSWORD
+      }
+    })
+
+    const mailOptions = {
+      from: process.env.EMAIL_FROM_USERNAME,
+      to: process.env.EMAIL_TO,
+      subject: 'New Contact Request',
+      text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
+    }
+
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.error(err)
+        res.status(500).send('Error sending email')
+      } else {
+        res.send('Email sent')
+      }
+
+
+    })
+  })
+
 
   app.post('/api/upload', (req, res, next) => {
     const token = req.header('X-TOTP-Token');
