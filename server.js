@@ -35,12 +35,12 @@ const storage = multer.diskStorage({
   
 
   app.post('/api/forms/pricing', (req, res) => {
-    const name = req.body.name
-    const email = req.body.email
-    const website = req.body.website
-    const message = req.body.message
+    let name = req.body.name
+    let email = req.body.email
+    let website = req.body.website
+    let message = req.body.message
 
-    const transporter = nodemailer.createTransport({
+    let transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
         user: process.env.EMAIL_FROM_USERNAME,
@@ -49,7 +49,7 @@ const storage = multer.diskStorage({
     })
     })
 
-    const mailOptions = {
+    let mailOptions = {
       from: process.env.EMAIL_FROM_USERNAME,
       to: process.env.EMAIL_TO,
       subject: 'New Pricing Request',
@@ -67,11 +67,11 @@ const storage = multer.diskStorage({
 
 
   app.post('/api/forms/contact', (req, res) => {
-    const name = req.body.name
-    const email = req.body.email
-    const message = req.body.message
+    let name = req.body.name
+    let email = req.body.email
+    let message = req.body.message
 
-    const transporter = nodemailer.createTransport({
+    let transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
         user: process.env.EMAIL_FROM_USERNAME,
@@ -79,7 +79,7 @@ const storage = multer.diskStorage({
       }
     })
 
-    const mailOptions = {
+    let mailOptions = {
       from: process.env.EMAIL_FROM_USERNAME,
       to: process.env.EMAIL_TO,
       subject: 'New Contact Request',
