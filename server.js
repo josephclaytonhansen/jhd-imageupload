@@ -80,8 +80,8 @@ const storage = multer.diskStorage({
         return
       }
   
-      let totalSize = 3522714 * 1024
-      let maxSize = 36152472 * 1024
+      let totalSize = 4747738 * 1024
+      let maxSize = 52109060 * 1024
   
       files.forEach(file => {
         totalSize += fs.statSync('./uploads/' + file).size

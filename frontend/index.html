@@ -55,7 +55,7 @@ window.onload = function() {
           totalSize = totalSize + ' B';
         }
         document.getElementById('totalFileSize').innerHTML = 'Total file size: ' + totalSize;
-        let imageSize = data.totalSize - (3522714 * 1024);
+        let imageSize = data.totalSize - (4747738 * 1024);
         if (imageSize > 1000000000) {
           imageSize = imageSize / 1000000000;
           imageSize = imageSize.toFixed(3);
@@ -73,12 +73,12 @@ window.onload = function() {
           imageSize = imageSize + ' B';
         }
         document.getElementById('imageFileSize').innerHTML = 'Image file size: ' + imageSize;
-        let percentage = ((data.totalSize) / (36152472 * 1024)) * 100;
+        let percentage = ((data.totalSize) / (52109060 * 1024)) * 100;
         percentage = percentage.toFixed(3);
         document.getElementById('percentage').innerHTML = 'Storage: ' + percentage + '%';
-        let maxSpace = 36152472 * 1024;
+        let maxSpace = 52109060 * 1024;
         let diskSpace = data.totalSize;
-        let imageSpace = data.totalSize - (3522714 * 1024);
+        let imageSpace = data.totalSize - (4747738 * 1024);
 
         let usedSpacePercentage = (diskSpace / maxSpace) * 100;
         let imageSpacePercentage = (imageSpace / maxSpace) * 100;
