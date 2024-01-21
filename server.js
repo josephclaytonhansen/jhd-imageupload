@@ -58,7 +58,7 @@ const storage = multer.diskStorage({
     
     let text = ''
     if (req.body.form === 'pricing'){
-      text = `Name: ${req.body.name}\nEmail: ${req.body.email}\nWebsite: ${req.body.website}\nMessage: ${req.body.message}\Notes: ${req.body.notes}\nServices: ${req.body.services}\nTotal: ${req.body.total}`
+      text = `Name: ${req.body.name}\n\nEmail: ${req.body.email}\n\nWebsite: ${req.body.website}\n\nNotes: ${req.body.notes}\n\nServices: ${req.body.services}\n\nTotal: ${req.body.total}`
     }
     else if (req.body.form === 'contact'){
       text = `Name: ${req.body.name}\nEmail: ${req.body.email}\nMessage: ${req.body.message}`
