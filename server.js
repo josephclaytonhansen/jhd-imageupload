@@ -7,6 +7,7 @@ require('dotenv').config()
 const speakeasy = require('speakeasy')
 const sharp = require('sharp')
 const nodemailer = require('nodemailer')
+const cors = require('cors')
 
 process.env.TZ = 'America/Chicago'
 
@@ -14,6 +15,12 @@ const app = express()
 
 app.use(express.static('frontend'))
 app.use(express.json())
+
+const corsOptions = {
+  origin: ['https://josephhansen.dev','https://www.josephhansen.dev','https://localhost:3000', 'https://images.josephhansen.dev', 'https://www.images.josephhansen.dev'],
+}
+
+app.use(cors(corsOptions))
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
