@@ -67,7 +67,7 @@ const storage = multer.diskStorage({
     let mailOptions = {
       from: process.env.EMAIL_FROM_USERNAME,
       to: process.env.EMAIL_TO,
-      subject: 'New ' + req.body.form + ' Request',
+      subject: 'New ' + req.body.form + ' Request' + ' from ' + req.body.name + ' (' + req.body.email + ')',
       text: text,
     }
 
