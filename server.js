@@ -17,7 +17,7 @@ app.use(express.static('frontend'))
 app.use(express.json())
 
 const corsOptions = {
-  origin: ['https://josephhansen.dev','https://www.josephhansen.dev','https://localhost:3000', 'https://images.josephhansen.dev', 'https://www.images.josephhansen.dev'],
+  origin: ['https://josephhansen.dev','https://www.josephhansen.dev','https://localhost:3000', 'https://images.josephhansen.dev', 'https://www.images.josephhansen.dev', 'https://hansenfamily.cc', 'https://www.hansenfamily.cc', 'https://hansenstudios.art', 'https://www.hansenstudios.art'],
 }
 
 app.use(cors(corsOptions))
@@ -58,7 +58,7 @@ const storage = multer.diskStorage({
     
     let text = ''
     if (req.body.form === 'pricing'){
-      text = `Name: ${req.body.name}\n\nEmail: ${req.body.email}\n\nWebsite: ${req.body.website}\n\nNotes: ${req.body.notes}\n\nServices: ${req.body.services}\n\nTotal: ${req.body.total}`
+      text = `Name: ${req.body.name}\n\nEmail: ${req.body.email}\n\nWebsite: ${req.body.website}\n\nNotes: ${req.body.notes}\n\nServices: ${req.body.services}\n\nTotal: ${req.body.total}\n\nReferring page: ${req.body.referrer}`
     }
     else if (req.body.form === 'contact'){
       text = `Name: ${req.body.name}\n\nEmail: ${req.body.email}\n\nMessage: ${req.body.message}\n\nReferring page: ${req.body.referrer}`
