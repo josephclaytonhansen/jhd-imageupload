@@ -5,7 +5,7 @@
 
 <h1>Image Upload</h1>
 
-<input type="file" id="fileInput" accept="image/*,application/pdf" onchange="previewFile()">
+<input type="file" id="fileInput" accept="image/*,application/pdf" onchange="previewFile()" multiple>
 
 <input type = "text" id = "totp">
 
@@ -124,21 +124,26 @@ window.onload = function() {
 };
 
 
-  function previewFile() {
-    var preview = document.getElementById('preview');
-    var file    = document.querySelector('input[type=file]').files[0];
-    var reader  = new FileReader();
+function previewFile() {
+  var previewContainer = document.getElementById('preview');
+  var files = document.querySelector('input[type=file]').files;
+
+  previewContainer.innerHTML = '';
+
+  Array.from(files).forEach(file => {
+    var img = document.createElement('img');
+    var reader = new FileReader();
 
     reader.onloadend = function () {
-      preview.src = reader.result;
+      img.src = reader.result;
+      previewContainer.appendChild(img);
     }
 
     if (file) {
       reader.readAsDataURL(file);
-    } else {
-      preview.src = "";
     }
-  }
+  });
+}
 
   function uploadImage() {
   var fileInput = document.getElementById('fileInput');
