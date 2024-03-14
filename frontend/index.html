@@ -106,7 +106,7 @@ window.onload = function() {
       let imageGrid = document.getElementById('imageGrid');
       for (let i = 0; i < data.length; i++) {
         let imageContainer = document.createElement('div');
-        imageContainer.style = 'display:flex;flex-direction:column;align-items:center;justify-content:center;max-width:150px;';
+        imageContainer.style = 'display:flex;flex-direction:column;align-items:center;justify-content:center;max-width:150px;max-height:150px;';
         let image = document.createElement('img');
         image.src = '/uploads/' + data[i];
         image.style = "max-width:100%;object-fit:cover;"
@@ -142,23 +142,21 @@ window.onload = function() {
 
   function uploadImage() {
   var fileInput = document.getElementById('fileInput');
-  var file = fileInput.files[0];
-  var formData = new FormData();
+  var files = fileInput.files;
+  if (files.length === 0) {
+    return alert('Please select a file');
+  }
+  files.array.forEach(file => {
+    var formData = new FormData();
   formData.append('file', file);
 
   var xhr = new XMLHttpRequest();
   xhr.open('POST', '/api/upload', true);
   xhr.setRequestHeader('X-TOTP-Token', document.getElementById('totp').value);
-  xhr.onload = function() {
-    if (xhr.status === 200) {
-      alert('File uploaded successfully');
-      var response = JSON.parse(xhr.responseText);
-      window.location.href = '/uploads/' + encodeURIComponent(response.filename);
-    } else {
-      alert('File upload failed: ' + xhr.responseText);
-    }
-  };
   xhr.send(formData);
+  });
+  window.location.reload();
+
 }
 
 </script>
