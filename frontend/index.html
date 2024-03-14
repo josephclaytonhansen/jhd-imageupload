@@ -109,7 +109,7 @@ window.onload = function() {
         imageContainer.style = 'display:flex;flex-direction:column;align-items:center;justify-content:center;max-width:150px;max-height:150px;';
         let image = document.createElement('img');
         image.src = '/uploads/' + data[i];
-        image.style = "max-width:100%;object-fit:cover;"
+        image.style = "max-width:100%;object-fit:cover;height:100%;"
         imageContainer.appendChild(image);
         imageGrid.appendChild(imageContainer);
 
