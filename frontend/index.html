@@ -146,7 +146,7 @@ window.onload = function() {
   if (files.length === 0) {
     return alert('Please select a file');
   }
-  files.array.forEach(file => {
+  Array.from(files).forEach(file => {
     var formData = new FormData();
   formData.append('file', file);
 
